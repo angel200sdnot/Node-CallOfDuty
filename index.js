@@ -134,7 +134,8 @@ module.exports = function(config = {}) {
         },
 
         apiErrorHandling(response) {
-            switch (response.status) {
+            const status = response !== undefined ? response.status : 'undefined';
+            switch (status) {
                 case 200:
                     const apiErrorMessage = (response.data !== undefined && response.data.data !== undefined && response.data.data.message !== undefined) ? response.data.data.message : (response.message !== undefined) ? response.message : 'No error returned from API.';
                     switch (apiErrorMessage) {
@@ -157,7 +158,7 @@ module.exports = function(config = {}) {
                 case 502:
                     return '502 - Bad gateway. Request failed, try again.';
                 default:
-                    return `We Could not get a valid reason for a failure. Status: ${response.status}`;
+                    return `We Could not get a valid reason for a failure. Status: ${status}`;
             }
         },
     };
